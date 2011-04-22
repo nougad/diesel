@@ -29,3 +29,21 @@ function getCurrentGeoLocation(callback) {
     $('<h2>Oops: No location available</h2>').appendTo('body');
   }
 }
+
+function getPlacesByBox(callback, sw_lat, sw_lng, ne_lat, ne_lng, category, search, order) {
+  url = "http://api.qype.com/v1/bounding_boxes/"+sw_lat+","+sw_lng+","+ne_lat+","+ne_lng+"/places.json?consumer_key="+apikey+"&callback=?"
+  if (category != undefined) { url += "&category="+category; }
+  if (search   != undefined) { url += "&show="+search;       }
+  if (order    == undefined) { url += "&order=distance";     }
+  else                       { url += "&order="+order;       }
+
+  $.getJSON(url, function(data) {
+    if (data.ok) {
+      $.each(data.results, function(i, place) { callback(place); });
+    } else {
+      // TODO something usefull
+      $('<h2>Oops: ' + data.status.error + '</h2>').appendTo('body');
+    }
+  });
+}
+
