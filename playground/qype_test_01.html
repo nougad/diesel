@@ -8,10 +8,7 @@
     <script type="text/javascript" src="../config.js"></script>
     <script type="text/javascript" src="../qype.js"></script>
     <script>
-      var successCallback = function(position) {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-
+      var successCallback = function(latitude, longitude) {
         $.getJSON("http://api.qype.com/v1/positions/"+latitude+","+longitude+"/places.json?consumer_key="+apikey+"&ui_locale="+ui_locale+"&content_language="+content_language+"&callback=?", function(data) {
           if (data.ok) {
             $.each(data.results, function(i, place) {
@@ -27,15 +24,7 @@
         });
       }
 
-      var errorCallback = function(error) {
-        $('<h2>Oops: GPS fail ' + error.code+'</h2>').appendTo('body');
-      }
-
-      if(typeof (navigator.geolocation) != 'undefined') {
-        navigator.geolocation.getCurrentPosition(successCallback, errorCallback, { enableHighAccuracy: true, maximumAge: 10000 });
-      } else {
-        $('<h2>Oops: No location available</h2>').appendTo('body');
-      }
+      getCurrentGeoLocation(successCallback);
     </script>
     <script>
     </script>
