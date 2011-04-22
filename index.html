@@ -8,6 +8,7 @@
 <script> 
 var map;
 
+var markersArray = [];
 
 var berlin = new google.maps.LatLng(52.46507,13.434649);
   function initialize() {
@@ -39,7 +40,6 @@ var berlin = new google.maps.LatLng(52.46507,13.434649);
   }
 
 function addmarker(lat, lng, color, name, link) {
-	
     var myLatlng = new google.maps.LatLng(lat,lng);
 	var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
@@ -56,9 +56,24 @@ function addmarker(lat, lng, color, name, link) {
 		icon: color + '.png',
         title: name
     });
+markersArray.push(marker);
     google.maps.event.addListener(marker, 'click', function() {
       infowindow.open(map,marker);
     });
+}
+
+
+function addmenu(title) {
+		menu = document.getElementById('menu')
+		menu.innerHTML = menu.innerHTML + '<a href="#">' + title + "</a><br>"
+}
+
+function resetMarkers() {
+  if (markersArray) {
+    for (i in markersArray) {
+      markersArray[i].setMap(null);
+    }
+  }
 }
 
 
@@ -77,6 +92,12 @@ Northeast LNG: <b id="nelng"></b><br>
 
 <a href="#" onclick="addmarker(52.46507,13.434649, 'green', 'zu kahbeh', 'http://kahbeh.de');">klick</a>
 <a href="#" onclick="addmarker(52.46507,13.444649, 'yellow', 'zu google', 'http://google.de');">klick2</a>
+<a href="#" onclick="resetMarkers();">reset</a>
+<a href="#" onclick="addmenu('neuesmenu')">addmenu</a>
+</div>
+
+<div id="menu" style="position:absolute; right:0; bottom:0;">
+	
 </div>
 
 </body> 
