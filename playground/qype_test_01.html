@@ -9,20 +9,15 @@
     <script type="text/javascript" src="../qype.js"></script>
     <script>
       var successCallback = function(latitude, longitude) {
-        $.getJSON("http://api.qype.com/v1/positions/"+latitude+","+longitude+"/places.json?consumer_key="+apikey+"&ui_locale="+ui_locale+"&content_language="+content_language+"&callback=?", function(data) {
-          if (data.ok) {
-            $.each(data.results, function(i, place) {
-              var link_to_qype = $.grep(place.place.links, function(value, i) {
-                return (value.rel == 'alternate')
-              })[0];
+        getPlacesByBox(function(place) {
+          var link_to_qype = $.grep(place.place.links, function(value, i) {
+            return (value.rel == 'alternate')
+          })[0];
 
-              $('<li><a href="' + link_to_qype.href + '">' + place.place.title + '</a></li>').appendTo('#places');
-            });
-            } else {
-            $('<h2>Oops: ' + data.status.error + '</h2>').appendTo('body');
-          }
-        });
+          $('<li><a href="' + link_to_qype.href + '">' + place.place.title + '</a></li>').appendTo('#places');
+        }, latitude-0.1, longitude-0.1, latitude+0.1, longitude+0.1);
       }
+
 
       getCurrentGeoLocation(successCallback);
     </script>
