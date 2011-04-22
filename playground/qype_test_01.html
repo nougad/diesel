@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang=en>
+  <head>
+    <meta charset=utf-8>
+    <title>blah</title>
+    <script type="text/javascript" src="../jquery-1.5.2.min.js"></script>
+    <script type="text/javascript" src="../apikey.js"></script>
+    <script type="text/javascript" src="../config.js"></script>
+    <script>
+      var successCallback = function(position) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+
+        $.getJSON("http://api.qype.com/v1/positions/"+latitude+","+longitude+"/places.json?consumer_key="+apikey+"&ui_locale="+ui_locale+"&content_language="+content_language+"&callback=?", function(data) {
+          if (data.ok) {
+            $.each(data.results, function(i, place) {
+              var link_to_qype = $.grep(place.place.links, function(value, i) {
+                return (value.rel == 'alternate')
+              })[0];
+
+              $('<li><a href="' + link_to_qype.href + '">' + place.place.title + '</a></li>').appendTo('#places');
+            });
+            } else {
+            $('<h2>Oops: ' + data.status.error + '</h2>').appendTo('body');
+          }
+        });
+      }
+
+      var errorCallback = function(error) {
+        $('<h2>Oops: GPS fail ' + error.code+'</h2>').appendTo('body');
+      }
+
+      if(typeof (navigator.geolocation) != 'undefined') {
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback, { enableHighAccuracy: true, maximumAge: 10000 });
+      } else {
+        $('<h2>Oops: No location available</h2>').appendTo('body');
+      }
+    </script>
+    <script>
+    </script>
+  </head>
+  <body>
+    <p>loading page ...</p>
+    <ul id="places"></ul>
+  </body>
+</html>
