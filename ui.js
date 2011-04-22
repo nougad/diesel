@@ -1,4 +1,4 @@
-function addmarker(lat, lng, color, name, link) {
+function addMarker(lat, lng, color, name, link) {
 	var myLatlng = new google.maps.LatLng(lat,lng);
 	var contentString = '<div id="content">'+
 	'<div id="siteNotice">'+
@@ -33,4 +33,16 @@ function resetMarkers() {
 			markersArray[i].setMap(null);
 		}
 	}
+}
+
+
+function placeToMarker(place) {
+	var link_to_qype = $.grep(place.place.links, function(value, i) {
+	      return (value.rel == 'alternate')
+	    })[0];
+    
+
+
+	points = place.place.point.split(",")
+	addMarker(points[0], points[1], 'red', place.place.title, link_to_qype.href)
 }
