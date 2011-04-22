@@ -31,7 +31,7 @@ function getCurrentGeoLocation(callback) {
 }
 
 function getPlacesByBox(callback, sw_lat, sw_lng, ne_lat, ne_lng, category, search, order) {
-  url = "http://api.qype.com/v1/bounding_boxes/"+sw_lat+","+sw_lng+","+ne_lat+","+ne_lng+"/places.json?consumer_key="+apikey+"&callback=?"
+  url = "http://api.qype.com/v1/bounding_boxes/"+sw_lat+","+sw_lng+","+ne_lat+","+ne_lng+"/places.json?per_page="+per_page+"&consumer_key="+apikey+"&callback=?"
   if (category != undefined) { url += "&category="+category; }
   if (search   != undefined) { url += "&show="+search;       }
   if (order    == undefined) { url += "&order=distance";     }
