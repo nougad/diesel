@@ -25,7 +25,12 @@
 		  var lngSpan = northEast.lng() - southWest.lng();
 		  var latSpan = northEast.lat() - southWest.lat();
 		
-	alert(bounds);
+		
+		document.getElementById('swlat').innerText = southWest.lat()
+		document.getElementById('swlng').innerText = southWest.lng()		
+		document.getElementById('nelat').innerText = northEast.lat()
+		document.getElementById('nelng').innerText = northEast.lng()
+	// alert(bounds);
 	  });
 
   }
@@ -37,5 +42,13 @@
 </head> 
 <body onload="initialize()"> 
   <div id="map_canvas" style="width: 600px; height: 480px;"></div> 
+<div style="position:absolute; top:0; right:0;">
+Southwest LAT: <b id="swlat"></b><br>
+Southwest LNG: <b id="swlng"></b><br>
+<br>
+Northeast LAT: <b id="nelat"></b><br>
+Northeast LNG: <b id="nelng"></b><br>
+</div>
+
 </body> 
 </html>
