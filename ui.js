@@ -34,8 +34,3 @@ function resetMarkers() {
 		}
 	}
 }
-
-function askForLatLng(xlat, xlng) {
-	lat = xlat
-	lng = xlng
-}
